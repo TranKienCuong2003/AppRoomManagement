@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLPhongTro" Class="QLPhongTroDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=QLPhongTro;Persist Security Info=True;User ID=sa;Encrypt=True;Trust Server Certificate=True" SettingsObjectName="BLL.Properties.Settings" SettingsPropertyName="QLPhongTroConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.BillDetails" Member="BillDetails">
+    <Type Name="BillDetail">
+      <Column Name="BillDetailID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="BillID" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="UtilityID" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="Amount" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Utility_BillDetail" Member="Utility" ThisKey="UtilityID" OtherKey="UtilityID" Type="Utility" IsForeignKey="true" />
+      <Association Name="Bill_BillDetail" Member="Bill" ThisKey="BillID" OtherKey="BillID" Type="Bill" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Utilities" Member="Utilities">
+    <Type Name="Utility">
+      <Column Name="UtilityID" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UtilityName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="UnitPrice" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Utility_BillDetail" Member="BillDetails" ThisKey="UtilityID" OtherKey="UtilityID" Type="BillDetail" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Bills" Member="Bills">
+    <Type Name="Bill">
+      <Column Name="BillID" Type="System.String" DbType="NChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ContractID" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="EmployeeID" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="TotalAmount" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="PaymentDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Bill_BillDetail" Member="BillDetails" ThisKey="BillID" OtherKey="BillID" Type="BillDetail" />
+      <Association Name="Contract_Bill" Member="Contract" ThisKey="ContractID" OtherKey="ContractID" Type="Contract" IsForeignKey="true" />
+      <Association Name="Employee_Bill" Member="Employee" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Contracts" Member="Contracts">
+    <Type Name="Contract">
+      <Column Name="ContractID" Type="System.String" DbType="NChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoomID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CustomerID" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="EmployeeID" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Deposit" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Contract_Bill" Member="Bills" ThisKey="ContractID" OtherKey="ContractID" Type="Bill" />
+      <Association Name="Contract_ContractsHistory" Member="ContractsHistories" ThisKey="ContractID" OtherKey="ContractID" Type="ContractsHistory" />
+      <Association Name="Contract_ElectricityReading" Member="ElectricityReadings" ThisKey="ContractID" OtherKey="ContractID" Type="ElectricityReading" />
+      <Association Name="Contract_WaterReading" Member="WaterReadings" ThisKey="ContractID" OtherKey="ContractID" Type="WaterReading" />
+      <Association Name="Contract_CustomerGroup" Member="CustomerGroups" ThisKey="ContractID" OtherKey="ContractID" Type="CustomerGroup" />
+      <Association Name="Customer_Contract" Member="Customer" ThisKey="CustomerID" OtherKey="CustomerID" Type="Customer" IsForeignKey="true" />
+      <Association Name="Employee_Contract" Member="Employee" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Employee" IsForeignKey="true" />
+      <Association Name="Room_Contract" Member="Room" ThisKey="RoomID" OtherKey="RoomID" Type="Room" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ContractsHistory" Member="ContractsHistories">
+    <Type Name="ContractsHistory">
+      <Column Name="ContractsHistory" Member="ContractsHistory1" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ContractID" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="Content" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Contract_ContractsHistory" Member="Contract" ThisKey="ContractID" OtherKey="ContractID" Type="Contract" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Customers" Member="Customers">
+    <Type Name="Customer">
+      <Column Name="CustomerID" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IdentityNumber" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PhoneNumber" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DateOfBirth" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Ward" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="District" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="INDENTIFY_FIRST_IMG" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="INDENTIFY_BACK_IMG" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Customer_Contract" Member="Contracts" ThisKey="CustomerID" OtherKey="CustomerID" Type="Contract" />
+      <Association Name="Customer_CustomerGroup" Member="CustomerGroups" ThisKey="CustomerID" OtherKey="CustomerID" Type="CustomerGroup" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EmployeeAccounts" Member="EmployeeAccounts">
+    <Type Name="EmployeeAccount">
+      <Column Name="AccountID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EmployeeID" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PasswordHash" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Role" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Employee_EmployeeAccount" Member="Employee" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Employees" Member="Employees">
+    <Type Name="Employee">
+      <Column Name="EmployeeID" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IdentityNumber" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PhoneNumber" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DateOfBirth" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Ward" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="District" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="INDENTIFY_FIRST_IMG" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="INDENTIFY_BACK_IMG" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Employee_Bill" Member="Bills" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Bill" />
+      <Association Name="Employee_Contract" Member="Contracts" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Contract" />
+      <Association Name="Employee_EmployeeAccount" Member="EmployeeAccounts" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="EmployeeAccount" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Rooms" Member="Rooms">
+    <Type Name="Room">
+      <Column Name="RoomID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TypeRoomID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RoomNumber" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Price" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Room_Contract" Member="Contracts" ThisKey="RoomID" OtherKey="RoomID" Type="Contract" />
+      <Association Name="TypeRoom_Room" Member="TypeRoom" ThisKey="TypeRoomID" OtherKey="TypeRoomID" Type="TypeRoom" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TypeRooms" Member="TypeRooms">
+    <Type Name="TypeRoom">
+      <Column Name="TypeRoomID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TypeRoomName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Quantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="TypeRoom_Room" Member="Rooms" ThisKey="TypeRoomID" OtherKey="TypeRoomID" Type="Room" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ward" Member="Wards">
+    <Type Name="Ward">
+      <Column Name="IdWards" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NameWards" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="IdDistricts" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="District_Ward" Member="District" ThisKey="IdDistricts" OtherKey="IdDistricts" Type="District" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Provinces" Member="Provinces">
+    <Type Name="Province">
+      <Column Name="IdProvinces" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NameProvinces" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="Province_District" Member="Districts" ThisKey="IdProvinces" OtherKey="IdProvinces" Type="District" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Districts" Member="Districts">
+    <Type Name="District">
+      <Column Name="IdDistricts" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NameDistricts" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="IdProvinces" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="District_Ward" Member="Wards" ThisKey="IdDistricts" OtherKey="IdDistricts" Type="Ward" />
+      <Association Name="Province_District" Member="Province" ThisKey="IdProvinces" OtherKey="IdProvinces" Type="Province" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ElectricityReadings" Member="ElectricityReadings">
+    <Type Name="ElectricityReading">
+      <Column Name="ReadingID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ContractID" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="MonthYear" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="OldReading" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="NewReading" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Contract_ElectricityReading" Member="Contract" ThisKey="ContractID" OtherKey="ContractID" Type="Contract" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WaterReadings" Member="WaterReadings">
+    <Type Name="WaterReading">
+      <Column Name="ReadingID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ContractID" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="MonthYear" Type="System.String" DbType="NVarChar(7)" CanBeNull="true" />
+      <Column Name="OldReading" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="NewReading" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Contract_WaterReading" Member="Contract" ThisKey="ContractID" OtherKey="ContractID" Type="Contract" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CustomerGroups" Member="CustomerGroups">
+    <Type Name="CustomerGroup">
+      <Column Name="ContractID" Type="System.String" DbType="NChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CustomerID" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Contract_CustomerGroup" Member="Contract" ThisKey="ContractID" OtherKey="ContractID" Type="Contract" IsForeignKey="true" />
+      <Association Name="Customer_CustomerGroup" Member="Customer" ThisKey="CustomerID" OtherKey="CustomerID" Type="Customer" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
